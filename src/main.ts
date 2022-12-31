@@ -1,7 +1,9 @@
 import { Application, Router } from "oak";
+import{addUser} from "./resolvers/post.ts"
 const router = new Router();
 
 router
+.post("/addUser",addUser)
 
 
 
