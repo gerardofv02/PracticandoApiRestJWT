@@ -15,15 +15,12 @@ export const addUser = async (context: PostUserContext)=> {
     try {
       const result = context.request.body({ type: "json" });
       const value = await result.value;
-      console.log(value.username);
-      console.log(value.password);
       if (!value?.username|| !value?.password ){
         context.response.body = 404;
         context.response.body = {message: "No ha introducido bien las caracteristicas del usuario"};
       }
       else{
-        const find = await usuariosCollection.findOne(...value);
-        console.log(find);
+        const find = await usuariosCollection.findOne({username: value.username});
         if(find){
             context.response.body = 404;
             context.response.body = {message: "El usuario estaba ya en la base de datos"};
