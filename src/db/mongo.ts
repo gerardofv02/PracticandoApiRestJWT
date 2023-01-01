@@ -4,7 +4,7 @@ import { MongoClient, Database } from "mongo";
 
 import { config } from "dotenv";
 import { Usuario } from "../types.ts";
-import { usuarioSchema } from "./schemas.ts";
+import { cocheSchema, usuarioSchema } from "./schemas.ts";
 
 await config({ export: true, allowEmptyValues: true });
 
@@ -32,3 +32,4 @@ const db = await connectMongoDB();
 console.info(`MongoDB ${db.name} connected`);
 
 export const usuariosCollection = db.collection<usuarioSchema>("usuarios");
+export const cochesCollection = db.collection<cocheSchema>("Cocheria");

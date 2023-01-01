@@ -1,12 +1,17 @@
 import { RouterContext } from "router";
-import { usuarioSchema} from "../db/schemas.ts";
-import { Usuario } from "../types.ts";
-import { usuariosCollection} from "../db/mongo.ts";
+import { cocheSchema, usuarioSchema} from "../db/schemas.ts";
+import { Usuario ,Coche, Estado} from "../types.ts";
+import { cochesCollection, usuariosCollection} from "../db/mongo.ts";
 import{ObjectId} from "mongo";
 import * as bcrypt from "https://deno.land/x/bcrypt@v0.4.1/mod.ts";
 
 type PostUserContext = RouterContext<
     "/addUser",
+    Record<string | number, string | undefined>,
+    Record<string, any>
+>;
+type PostCarCOntext = RouterContext<
+    "/addCoche",
     Record<string | number, string | undefined>,
     Record<string, any>
 >;
@@ -31,7 +36,7 @@ export const addUser = async (context: PostUserContext)=> {
 
             const user :Partial<Usuario> = {
                 password: hash,
-                
+
                 username: value.username,
             };
             const id = await usuariosCollection.insertOne(user as usuarioSchema);
@@ -52,5 +57,56 @@ export const addUser = async (context: PostUserContext)=> {
   }
 }
 
+export const addCoche = async(context: PostCarCOntext) =>{
+    try{
+
+        const result = context.request.body({type:"json"});
+        const values = await result.value;
+
+        if(!values.matricula || !values.seats || !values.estado){
+            context.response.body = 404;
+            context.response.body = {message: "No ha introducido bien las caracteristicas del coche"};
+            return;
+        }
+
+
+
+
+        const find = await cochesCollection.findOne({matricula: values.matricula});
+
+        if(find){
+            context.response.status = 400;
+            context.response.body = {message: "Coche ya esta en la bd"};
+            return;
+        }
+
+        const cochee : Partial<Coche> ={
+            estado: values.estado,
+            matricula: values.matricula,
+            seats: Number(values.seats),
+
+        }
+
+        const id = await cochesCollection.insertOne(cochee as cocheSchema);
+
+        context.response.body = {
+            message: "Coche introducido correctamente",
+            estado: cochee.estado,
+            matricula: cochee.matricula,
+            seats: cochee.seats,
+            id: cochee.id
+        }
+
+
+    }catch(error){
+        context.response.status = 404;
+        context.response.body = {message: "Error al crear el coche", error:error};
+    }
+}
+
 
   
+
+function indexOf(estado: any) {
+throw new Error("Function not implemented.");
+}
