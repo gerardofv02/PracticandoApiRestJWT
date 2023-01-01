@@ -11,6 +11,7 @@ type PostUserContext = RouterContext<
     Record<string, any>
 >;
 
+
 export const addUser = async (context: PostUserContext)=> {
     try {
       const result = context.request.body({ type: "json" });
@@ -48,5 +49,7 @@ export const addUser = async (context: PostUserContext)=> {
       context.response.status = 404;
       context.response.body = { message: "No se ha podido añadir el usuario a la base de datos", error: error };
   }
-    }
+}
+
+
   

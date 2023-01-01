@@ -6,6 +6,7 @@
       "djwt": "https://deno.land/x/djwt@v2.8/mod.ts",
       "oak": "https://deno.land/x/oak@v11.1.0/mod.ts",
       "router": "https://deno.land/x/oak@v11.1.0/router.ts",
-      "dotenv" : "https://deno.land/x/dotenv/mod.ts"
+      "dotenv" : "https://deno.land/x/dotenv/mod.ts",
+      "oakQuery" : "https://deno.land/x/oak@v11.1.0/helpers.ts"
     }
   }
