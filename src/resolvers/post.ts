@@ -31,6 +31,7 @@ export const addUser = async (context: PostUserContext)=> {
 
             const user :Partial<Usuario> = {
                 password: hash,
+                
                 username: value.username,
             };
             const id = await usuariosCollection.insertOne(user as usuarioSchema);
