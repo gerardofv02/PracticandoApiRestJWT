@@ -34,11 +34,11 @@ export const login= async (context:LogInContext) =>{
             context.response.body = {message:"Usuario o encontrado en la bd"};
             return;
         }
-        const verify = bcrypt.compare(user.password,params.password);
-
+        const verify = await bcrypt.compare(params.password,user.password);
         if(!verify){
             context.response.status = 400;
             context.response.body = {message:"COntraseña incorrecta"};
+            return;
         }
 
         const token = await createJWT({
